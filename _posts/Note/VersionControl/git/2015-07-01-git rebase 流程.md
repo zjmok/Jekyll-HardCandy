@@ -3,7 +3,7 @@ layout: post
 tags: Git
 ---
 
-## rebase流程
+## git rebase 流程
 
 rebase变基,会将当前分支从指定提交上重新衍合,相当于重新提交之间的提交,成一条直线的提交
 
@@ -11,7 +11,7 @@ rebase变基,会将当前分支从指定提交上重新衍合,相当于重新提
 
 谨慎使用rebase，请勿在其他开发者未知情的情况下对有副本的节点进行rebase，否则你可能会被打
 
-#### rebase方式合并分支
+#### rebase 方式合并分支
 
 一般流程:
 	master 是 rebase 的目标分支
@@ -47,7 +47,7 @@ rebase变基,会将当前分支从指定提交上重新衍合,相当于重新提
 
 	当然也可以只对commit进行rebase
 
-#### rebase修改当前分支的提交
+#### rebase 修改当前分支的提交
 
 ```
 	git rebase -i [要变基到的commit-id]
