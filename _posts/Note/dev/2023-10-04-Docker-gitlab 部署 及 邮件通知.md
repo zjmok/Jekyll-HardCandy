@@ -27,7 +27,8 @@ sudo docker run --detach \
   gitlab/gitlab-ce:latest
 ```
 
-`--hostname` 指定主机名，域名 或 IP，(局域网 可填写 IP 或 DNS 可解析的 域名，自己本机使用可填写 localhost)
+`--hostname` 指定主机名，域名 或 IP，(局域网 可填写 IP 或 DNS 可解析的 域名，自己本机使用可填写 localhost)  
+邮件的链接的 hostname 等，填可访问的域名或 ip
 
 挂载目录为: 配置、 日志、 数据
 
@@ -50,7 +51,7 @@ sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 配置 SMTP 相关，打开 gitlab.rb
 
 ```
-sudo vim </path/to/config>/gitlab.rb
+vi /etc/gitlab/gitlab.rb
 ```
 
 内容
@@ -71,8 +72,11 @@ gitlab_rails['smtp_enable_starttls_auto'] = false
 gitlab_rails['smtp_tls'] = true
 gitlab_rails['smtp_pool'] = false
 
-# 必须跟 smtp_user_name 保持一致
-gitlab_rails['gitlab_email_from'] = 'example@example.com'
+# 管理员邮箱设置，可能配置不成功，需要通过 root 的设置界面修改，或直接修改数据库
+gitlab_rails['gitlab_email_enabled'] = true
+gitlab_rails['gitlab_email_from'] = 'example@example.com' # 发件人邮箱
+gitlab_rails['gitlab_email_reply_to'] = "example@example.com" # 回复邮箱
+gitlab_rails['gitlab_email_display_name'] = "GitLab" # 邮件显示名称
 ```
 
 需要注意这里的 tls 协议和对应端口号。
@@ -133,7 +137,7 @@ gitlab-rails console
 
 控制台相关命令
 
-查看smpt配置
+#### 查看smpt配置
 
 ```
 // 检查邮件的协议，进入 `gitlab-rails console` 执行
@@ -143,7 +147,7 @@ ActionMailer::Base.delivery_method
 ActionMailer::Base.smtp_settings
 ```
 
-修改用户密码
+#### 修改用户密码
 
 ```
 // 获取 id=1 的用户
@@ -156,5 +160,97 @@ user.password = '新密码'
 user.save
 ```
 
-在这里控制台不能修改邮箱。可以在配置好上面的管理员邮箱后在页面上添加一个新邮箱后再删除 root 用户的 admin@example.com
+#### 修改管理员邮箱
 
+- 在 root 页面上添加一个新邮箱后再删除 root 用户的 admin@example.com
+
+管理员账户的邮箱地址直接存储在 PostgreSQL 数据库中，这个值会覆盖 gitlab.rb 的部分设置
+
+- 直接修改数据库修改邮箱
+
+控制台执行
+
+```
+# 查找管理员账户（通常是root）
+admin = User.find_by(username: 'root')
+
+# 更新邮箱并跳过验证（生产环境谨慎使用）
+admin.update!(email: 'admin@your-real-domain.com', skip_reconfirmation: true)
+
+# 同时更新通知邮箱
+admin.notification_email = 'admin@your-real-domain.com'
+admin.save!
+
+# 验证修改
+admin.reload
+puts "当前管理员邮箱: #{admin.email}"
+puts "当前通知邮箱: #{admin.notification_email}"
+exit
+```
+
+---
+---
+
+## docker-compose
+
+```
+version: '3'
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab
+    restart: always
+    hostname: 'gitlab.example.com' # 邮件的链接的 hostname 等，填可访问的域名或 ip
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.example.com'  # 替换为你的URL
+        # 其他GitLab配置可以在这里添加
+        # gitlab_rails['gitlab_shell_ssh_port'] = 2222
+        # nginx['listen_port'] = 80
+        # nginx['listen_https'] = false  # 如果你在前面使用反向代理
+        # SMTP配置示例
+        gitlab_rails['smtp_enable'] = true
+        gitlab_rails['smtp_address'] = "smtp.example.com"
+        gitlab_rails['smtp_port'] = 587
+        gitlab_rails['smtp_user_name'] = "user@example.com"
+        gitlab_rails['smtp_password'] = "password"
+        gitlab_rails['smtp_domain'] = "example.com"
+        gitlab_rails['smtp_authentication'] = "login"
+        gitlab_rails['smtp_enable_starttls_auto'] = false
+        gitlab_rails['smtp_tls'] = true
+        gitlab_rails['smtp_pool'] = true
+        # 管理员邮箱设置，需要通过 root 的设置界面修改，或修改数据库
+        gitlab_rails['gitlab_email_enabled'] = true
+        gitlab_rails['gitlab_email_from'] = 'gitlab@yourdomain.com'  # 发件人邮箱
+        gitlab_rails['gitlab_email_reply_to'] = 'noreply@yourdomain.com'  # 回复邮箱
+        gitlab_rails['gitlab_email_display_name'] = 'GitLab'  # 邮件显示名称
+    ports:
+      - "80:80"
+      - "443:443"  # 如果需要HTTPS
+      - "22:22"    # Git SSH端口
+    volumes:
+      - gitlab_config:/etc/gitlab
+      - gitlab_logs:/var/log/gitlab
+      - gitlab_data:/var/opt/gitlab
+    networks:
+      - gitlab_network
+
+volumes:
+  gitlab_config: # 配置文件
+  gitlab_logs: # 日志文件
+  gitlab_data: # 存储仓库数据、上传的附件、数据库数据等
+
+networks:
+  gitlab_network:
+    driver: bridge
+```
+
+可选额外挂载
+
+```
+volumes:
+  - ./gitlab.rb:/etc/gitlab/gitlab.rb # 挂载自定义配置文件
+  - ./ssh:/etc/ssh # 自定义SSH配置
+  - ./certs:/etc/gitlab/ssl # SSL证书目录
+```

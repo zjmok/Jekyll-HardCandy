@@ -123,4 +123,7 @@ GRADLE_USER_HOME=Z:\.repo\.gradle
 
 # Git SSH 等
 
-由于文件比较小, 建议备份直接复制到新系统
+```
+~/.gitconfig
+~/.ssh
+```
