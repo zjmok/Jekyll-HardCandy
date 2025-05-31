@@ -77,7 +77,7 @@ PLATFORMS
   x86-mswin32
 
 DEPENDENCIES
-  jekyll (~> 3.8.1)
+  jekyll (~> 3.8)
   jekyll-feed (~> 0.6)
   kramdown
   minima (~> 2.0)
