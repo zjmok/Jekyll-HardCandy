@@ -18,9 +18,9 @@ author: true
 name: 'Mok | 莫志贤'
 NickName: 'Harry'
 webtitle: "mok's blog"
-bio: '29, 男'
+bio: '30, 男'
 about: true
-aboutyou: '逆风的方向 更适合飞翔'
+aboutyou: '路漫漫其修远兮，吾将上下而求索。热爱技术，热爱编程。'
 # portraits: '/assets/profile.jpeg' # your portraits image file path
 portraits: 'https://avatars0.githubusercontent.com/u/27819746?s=460&v=4' # your portraits image file path
 
@@ -43,7 +43,7 @@ SNS-icon: #['Facebook', 'weibo', 'qq', 'github', 'Dribbble', 'Twitter', 'instagr
  # twitch: ''
 
 # 分页
-paginate: 20
+paginate: 10
 paginatepath: ['page:num']
 
 # since
@@ -56,9 +56,9 @@ markdown: kramdown
 kramdown:
   input: GFM
 
-# 代码高亮 使用rouge
+# 代码高亮 使用 rouge
 highlighter: rouge
-# 代码高亮主题使用pygments主题: autumn\ default\ emacs\ friendly\ manni\ murphy\ pastie\ perldoc\ tango 任选一个你喜欢的主题名称填在下面的单引号中
+# 代码高亮主题使用 pygments 主题: autumn\ default\ emacs\ friendly\ manni\ murphy\ pastie\ perldoc\ tango 任选一个你喜欢的主题名称填在下面的单引号中
 pygmentsTheme: 'default'
 
 # 友情链接
