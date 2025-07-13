@@ -11,7 +11,7 @@ tags: Android Flutter
 
 1. 创建 flutter module
 
-```
+```bash
 flutter create -t module --org com.example module_flutter
 ```
 
@@ -21,7 +21,7 @@ module_flutter 的 .android/Flutter 是依赖的 Lib, 把 Lib 作为源码依赖
 
 module_flutter 的 .android/app 是可以独立运行的 app, 是使用 Lib 的形式
 
-```
+```groovy
 setBinding(new Binding([gradle: this]))
 
 def flutterModulePath = rootDir.toString() + "/module_flutter"
@@ -35,7 +35,7 @@ evaluate(new File(filePath)) // 执行 Flutter 作为 Lib 的脚本 include_flut
 
 集成时还需要修改 repositoriesMode
 
-```
+```groovy
 // settings.gradle
 dependencyResolutionManagement {
 //    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -46,7 +46,7 @@ dependencyResolutionManagement {
 
 添加 maven
 
-```
+```groovy
 // settings.gradle
 dependencyResolutionManagement {
     // ...
@@ -59,7 +59,7 @@ dependencyResolutionManagement {
 
 添加依赖
 
-```
+```groovy
     implementation project(':flutter')
 ```
 
@@ -71,7 +71,7 @@ flutter 有三种模式:
 - profile	适用于性能调试，启用部分优化
 - release	适用于发布到生产环境，完全优化，性能最佳
 
-```
+```groovy
 android{
     buildTypes {
         debug {
@@ -104,7 +104,7 @@ android{
 
 flutter 支持的三种架构
 
-```
+```groovy
 android {
     // ...
     defaultConfig {
@@ -120,7 +120,7 @@ android {
 
 - `flutter build aar --release` 执行后会生成 repo 目录的 maven 本地仓库，可以添加 maven 后 使用 implement 依赖方式集成
 
-```
+```groovy
 dependencyResolutionManagement {
     repositories {
         maven(url = "https://storage.googleapis.com/download.flutter.io")
@@ -129,7 +129,7 @@ dependencyResolutionManagement {
 }
 ```
 
-```
+```groovy
 dependencies {
     // ...
     debugImplementation("com.example.module_flutter:flutter_debug:1.0")
@@ -144,7 +144,7 @@ dependencies {
 
 ### 使用 Flutter 的页面
 
-```
+```dart
 // Activity 方式
 val intent: Intent = FlutterActivity.createDefaultIntent(this)
 
@@ -161,7 +161,7 @@ Flutter 与 Android 之间可以通过消息通道来进行双向通信。
 
 在 Android 中发送消息
 
-```
+```kotlin
 val String CHANNEL = "com.example.myapp/channel"
 MethodChannel(getFlutterEngine().getDartExecutor(), CHANNEL)
     .invokeMethod("sendData", "Hello from Android")
@@ -213,7 +213,7 @@ Future<void> _sendDataToAndroid() async {
 
 在 Android 端接收 Flutter 消息并处理
 
-```
+```kotlin
 class MainActivity: FlutterActivity() {
     private val CHANNEL = "com.example.myapp/channel"
 
@@ -249,13 +249,13 @@ class MainActivity: FlutterActivity() {
 
 1. 移除 module_flutter 的 Git 跟踪（此操作不会删除工作区文件）
 
-```
+```bash
 git rm -r --cached module_flutter
 ```
 
 2. 进入 module_flutter 创建模块的 git 仓库，并提交远端仓库
 
-```
+```bash
 cd module_flutter
 
 git init
@@ -269,7 +269,7 @@ git push -u origin master # 推送到远端
 
 4. 在目录不存在的前提下，在主仓库根目录执行添加 git submodule 的命令
 
-```
+```bash
 git submodule add ssh://admin@192.168.1.211:29418/module_flutter.git module_flutter
 ```
 
@@ -279,7 +279,8 @@ git 会把子仓库 module_flutter 整个目录识别成文件，内容是子仓
 提交 `.submodule` 和 `module_flutter` 到远端即可
 
 后续初始化更新子模块
-```
+
+```bash
 git submodule update --init
 ```
 
