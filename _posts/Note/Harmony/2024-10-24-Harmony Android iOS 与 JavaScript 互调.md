@@ -7,7 +7,7 @@ tags: Harmony Android iOS
 
 Html 页面，里面包含一些 JavaScript 互调的方法
 
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,7 +58,7 @@ Html 页面，里面包含一些 JavaScript 互调的方法
 
 JavaScript 调用 Harmony。用 Web 的 `javaScriptProxy`（只注册一个对象），或 WebviewController 的 `registerJavaScriptProxy`（支持注册多个对象）
 
-```
+```javascript
 Web({ src: this.url, controller: this.webviewController })
   .javaScriptAccess(true)
   .javaScriptProxy({
@@ -78,7 +78,7 @@ Web({ src: this.url, controller: this.webviewController })
 
 Harmony 调用 JavaScript
 
-```
+```arkts
 // 通过传入 Web 的 webviewController
 this.webviewController.runJavaScript("receiveMessageFromHarmony('Response from Harmony')")
 ```
@@ -87,7 +87,7 @@ this.webviewController.runJavaScript("receiveMessageFromHarmony('Response from H
 
 JavaScript 调用 Android
 
-```
+```kotlin
 webView.settings.javaScriptEnabled = true
 webView.addJavascriptInterface(WebAppInterface(), "Android")
 
@@ -102,7 +102,7 @@ inner class WebAppInterface {
 
 Android 调用 JavaScript
 
-```
+```kotlin
 webView.evaluateJavascript("receiveMessageFromAndroid('Response from Android')", null)
 ```
 
