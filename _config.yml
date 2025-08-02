@@ -28,7 +28,7 @@ portraits: 'https://avatars0.githubusercontent.com/u/27819746?s=460&v=4' # your 
 SNS: true
 SNS-icon: #['Facebook', 'weibo', 'qq', 'github', 'Dribbble', 'Twitter', 'instagram', 'weixin', 'Codepen']
   mail: 'mailto:mzx0766@163.com'
-  github: 'https://github.com/cymok'
+  github: 'https://github.com/zjmok'
   weixin: '/assets/qr_code_wechat.png' # 你的微信二维码存放的地址
   qq: 'http://wpa.qq.com/msgrd?v=3&uin=604193275&site=qq&menu=yes' # 你的qq二维码存放的地址 or http://wpa.qq.com/msgrd?v=3&uin='你的QQ号'&site=qq&menu=yes
  # Facebook: 'http://facebook.com/mozhx'
@@ -70,7 +70,7 @@ friends:
 disqus: false
 disqus_url: '' # https://abc.disqus.com/embed.js
 # 来必力评论
-livere: true
+livere: false
 livere_uid: 'MTAyMC80NjQ0NS8yMjk1Ng==' # 'MTAyMC80NjQ0NC8yMjk1NQ==' # MTAyMC8zNDI2OS8xMDgwNg==
 # Gitment评论 OAuth Application
 Gitment: false
@@ -80,7 +80,7 @@ client_id: ''  # 注册 OAuth Application 后获得的 client_id
 client_secret: ''  # 注册 OAuth Application 后获得的 client_secret
 
 # Share : weibo, qq, wechat, tencent, douban, qzone, linkedin, diandian, facebook, twitter, google
-social-share: true
+social-share: false
 social-share-items: ['wechat', 'qq', qzone, 'weibo', 'facebook', 'twitter', 'google', linkedin]
 
 # 百度统计 在baidu-url里填写自己相关的url代码
