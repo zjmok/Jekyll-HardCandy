@@ -2,7 +2,7 @@
 title: 'mok' # your awesome title
 description: '我的代码没有BUG'
 keywords: 'Android, Flutter, Java, Kotlin' # your web keywords, another keywords
-url: 'https://cymok.github.io' # your host
+url: 'https://zjmok.github.io' # your host
 
 # nav 中文字符空格：&emsp;
 nav: # 最佳体验 六个标签 且最好每个标签不超过4中文字
@@ -17,7 +17,7 @@ nav: # 最佳体验 六个标签 且最好每个标签不超过4中文字
 author: true
 name: 'Mok | 莫志贤'
 NickName: 'Harry'
-webtitle: "mok's blog"
+webtitle: "Mok's Blog"
 bio: '30, 男'
 about: true
 aboutyou: '路漫漫其修远兮，吾将上下而求索。热爱技术，热爱编程。'
